@@ -1,7 +1,9 @@
+import { popularGamesURL } from "./api";
 function App() {
+  console.log(popularGamesURL());
   return (
     <>
-      <h1>Ignite</h1>
+      <h1>{popularGamesURL()}</h1>
     </>
   );
 }
