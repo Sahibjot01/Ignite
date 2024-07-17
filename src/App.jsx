@@ -4,19 +4,35 @@ import { loadGames } from "./actions/gamesActions";
 
 function App() {
   const dispatch = useDispatch();
-  const { popular } = useSelector((state) => state.games);
+  const { popular, upcoming, newGames } = useSelector((state) => state.games);
+
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
   return (
-    <>
-      <h1>Popular Games</h1>
-      <ul>
-        {popular.map((game) => (
-          <li key={game.id}>{game.name}</li>
-        ))}
-      </ul>
-    </>
+    <div>
+      <h1>Games</h1>
+      <div>
+        <h2>Popular Games</h2>
+        <ul>
+          {popular && popular.map((game) => <li key={game.id}>{game.name}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Upcoming Games</h2>
+        <ul>
+          {upcoming &&
+            upcoming.map((game) => <li key={game.id}>{game.name}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>New Games</h2>
+        <ul>
+          {newGames &&
+            newGames.map((game) => <li key={game.id}>{game.name}</li>)}
+        </ul>
+      </div>
+    </div>
   );
 }
 
