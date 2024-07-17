@@ -7,6 +7,7 @@ import allReducers from "./reducers/index.js";
 
 const store = configureStore({
   reducer: allReducers,
+  devTools: import.meta.env.VITE_NODE_ENV !== "production",
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
