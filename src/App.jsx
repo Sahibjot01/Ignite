@@ -1,11 +1,11 @@
 //component and pages
 import Home from "./pages/Home";
-
+import GlobalStyles from "./components/GlobalStyles";
 function App() {
   return (
     <>
-      <h1>Hello Ignite</h1>
       <Home />
+      <GlobalStyles />
     </>
   );
 }

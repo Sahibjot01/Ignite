@@ -1,39 +1,55 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesActions";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import GameCard from "../components/GameCard";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { popular, upcoming, newGames } = useSelector((state) => state.games);
+  const { upcoming, popular, newGames } = useSelector((state) => state.games);
 
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
   return (
-    <div>
-      <h1>Games</h1>
-      <div>
-        <h2>Popular Games</h2>
-        <ul>
-          {popular && popular.map((game) => <li key={game.id}>{game.name}</li>)}
-        </ul>
-      </div>
-      <div>
-        <h2>Upcoming Games</h2>
-        <ul>
-          {upcoming &&
-            upcoming.map((game) => <li key={game.id}>{game.name}</li>)}
-        </ul>
-      </div>
-      <div>
-        <h2>New Games</h2>
-        <ul>
-          {newGames &&
-            newGames.map((game) => <li key={game.id}>{game.name}</li>)}
-        </ul>
-      </div>
-    </div>
+    <StyledGameListDiv>
+      <h2>Upcoming Games</h2>
+
+      <StyledGamesDiv>
+        {upcoming &&
+          upcoming.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
+
+      <h2>Popular Games</h2>
+
+      <StyledGamesDiv>
+        {popular &&
+          popular.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
+
+      <h2>New Games</h2>
+
+      <StyledGamesDiv>
+        {newGames &&
+          newGames.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
+    </StyledGameListDiv>
   );
 };
+
+const StyledGameListDiv = styled(motion.div)`
+  padding: 0rem 5rem;
+  h2 {
+    padding: 5rem 0rem;
+  }
+`;
+const StyledGamesDiv = styled(motion.div)`
+  min-height: 80vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-column-gap: 3rem;
+  grid-row-gap: 5rem;
+`;
 
 export default Home;
