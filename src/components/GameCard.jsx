@@ -1,9 +1,17 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+//importing redux
+import { useDispatch } from "react-redux";
+import { loadDetail } from "../actions/detailAction";
 
 const GameCard = ({ game }) => {
+  const dispatch = useDispatch();
+  const loadDetailHandler = () => {
+    console.log(game.id);
+    dispatch(loadDetail(game.id));
+  };
   return (
-    <StyledGameCard>
+    <StyledGameCard onClick={loadDetailHandler}>
       <h3>{game.name}</h3>
       <p>{game.released}</p>
       <p>Rating : {game.rating ? game.rating : "not available"}</p>
