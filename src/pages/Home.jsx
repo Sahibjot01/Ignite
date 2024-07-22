@@ -4,16 +4,24 @@ import { loadGames } from "../actions/gamesActions";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import GameCard from "../components/GameCard";
+import GameDetail from "../components/GameDetail";
+
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { upcoming, popular, newGames } = useSelector((state) => state.games);
 
+  const location = useLocation();
+  const gameID = location.pathname.split("/")[2];
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
+
   return (
     <StyledGameListDiv>
+      {/* only render game detail if pathname have the gameid */}
+      {gameID && <GameDetail />}
       <h2>Upcoming Games</h2>
 
       <StyledGamesDiv>
