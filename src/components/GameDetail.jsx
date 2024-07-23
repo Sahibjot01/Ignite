@@ -2,13 +2,23 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //importing redux
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { imageResizeURL } from "../util";
 
 const GameDetail = () => {
   const { screen, game, isLoading } = useSelector((state) => state.detail);
+  const navigate = useNavigate();
+  const exitDetailHandler = (e) => {
+    let element = e.target;
+    if (element.classList.contains("shadow")) {
+      document.body.style.overflow = "auto";
+      navigate("/");
+    }
+  };
   return (
     <>
       {!isLoading && (
-        <StyledCardShadowDiv>
+        <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
           <StyledDetailedCard>
             <StyledStatsDiv>
               <div className="rating">
@@ -26,14 +36,21 @@ const GameDetail = () => {
             </StyledStatsDiv>
 
             <StyledMediaDiv>
-              <img src={game.background_image} alt={game.background_image} />
+              <img
+                src={imageResizeURL(game.background_image, 1280)}
+                alt={game.background_image}
+              />
             </StyledMediaDiv>
             <StyledDescriptionDiv>
               <p>{game.description_raw}</p>
             </StyledDescriptionDiv>
             <div className="gallery">
               {screen.results.map((screen) => (
-                <img key={screen.id} src={screen.image} alt={screen.image} />
+                <img
+                  key={screen.id}
+                  src={imageResizeURL(screen.image, 1280)}
+                  alt={screen.image}
+                />
               ))}
             </div>
           </StyledDetailedCard>

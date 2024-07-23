@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { loadDetail } from "../actions/detailAction";
 import { Link } from "react-router-dom";
-
+import { imageResizeURL } from "../util";
 const GameCard = ({ game }) => {
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
+    document.body.style.overflow = "hidden";
     dispatch(loadDetail(game.id));
   };
   return (
@@ -16,7 +17,10 @@ const GameCard = ({ game }) => {
         <h3>{game.name}</h3>
         <p>{game.released}</p>
         <p>Rating : {game.rating ? game.rating : "not available"}</p>
-        <img src={game.background_image} alt={game.name} />
+        <img
+          src={imageResizeURL(game.background_image, 1280)}
+          alt={game.name}
+        />
       </Link>
     </StyledGameCard>
   );
@@ -27,6 +31,7 @@ const StyledGameCard = styled(motion.div)`
   box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 1rem;
+  overflow: hidden;
   cursor: pointer;
   img {
     width: 100%;
