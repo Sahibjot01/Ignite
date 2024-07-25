@@ -1,8 +1,9 @@
+import { memo } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesActions";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import GameCard from "../components/GameCard";
 import GameDetail from "../components/GameDetail";
 
@@ -20,28 +21,30 @@ const Home = () => {
 
   return (
     <StyledGameListDiv>
-      {/* only render game detail if pathname have the gameid */}
-      {gameID && <GameDetail />}
-      <h2>Upcoming Games</h2>
+      <LayoutGroup>
+        {/* only render game detail if pathname have the gameid */}
+        {gameID && <GameDetail />}
+        <h2>Upcoming Games</h2>
 
-      <StyledGamesDiv>
-        {upcoming &&
-          upcoming.map((game) => <GameCard key={game.id} game={game} />)}
-      </StyledGamesDiv>
+        <StyledGamesDiv>
+          {upcoming &&
+            upcoming.map((game) => <GameCard key={game.id} game={game} />)}
+        </StyledGamesDiv>
 
-      <h2>Popular Games</h2>
+        <h2>Popular Games</h2>
 
-      <StyledGamesDiv>
-        {popular &&
-          popular.map((game) => <GameCard key={game.id} game={game} />)}
-      </StyledGamesDiv>
+        <StyledGamesDiv>
+          {popular &&
+            popular.map((game) => <GameCard key={game.id} game={game} />)}
+        </StyledGamesDiv>
 
-      <h2>New Games</h2>
+        <h2>New Games</h2>
 
-      <StyledGamesDiv>
-        {newGames &&
-          newGames.map((game) => <GameCard key={game.id} game={game} />)}
-      </StyledGamesDiv>
+        <StyledGamesDiv>
+          {newGames &&
+            newGames.map((game) => <GameCard key={game.id} game={game} />)}
+        </StyledGamesDiv>
+      </LayoutGroup>
     </StyledGameListDiv>
   );
 };
@@ -60,4 +63,4 @@ const StyledGamesDiv = styled(motion.div)`
   grid-row-gap: 5rem;
 `;
 
-export default Home;
+export default memo(Home);

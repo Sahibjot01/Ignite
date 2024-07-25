@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //importing redux
@@ -10,14 +11,17 @@ const GameCard = ({ game }) => {
   const loadDetailHandler = () => {
     document.body.style.overflow = "hidden";
     dispatch(loadDetail(game.id));
+    console.log(typeof game.id);
   };
+
   return (
-    <StyledGameCard onClick={loadDetailHandler}>
+    <StyledGameCard layoutId={game.id} onClick={loadDetailHandler}>
       <Link to={`/game/${game.id}`}>
-        <h3>{game.name}</h3>
+        <motion.h3 layoutId={`title ${game.id}`}>{game.name}</motion.h3>
         <p>{game.released}</p>
         <p>Rating : {game.rating ? game.rating : "not available"}</p>
-        <img
+        <motion.img
+          layoutId={`image ${game.id}`}
           src={imageResizeURL(game.background_image, 1280)}
           alt={game.name}
         />
@@ -39,4 +43,4 @@ const StyledGameCard = styled(motion.div)`
     object-fit: cover;
   }
 `;
-export default GameCard;
+export default memo(GameCard);

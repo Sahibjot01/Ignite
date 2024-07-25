@@ -1,5 +1,6 @@
+import { memo } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 //importing redux
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,45 +16,58 @@ const GameDetail = () => {
       navigate("/");
     }
   };
+
   return (
     <>
       {!isLoading && (
         <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
-          <StyledDetailedCard>
-            <StyledStatsDiv>
-              <div className="rating">
-                <h3>{game.name}</h3>
-                <p>rating : {game.rating}</p>
-              </div>
-              <StyledInfoDiv>
-                <h3>Platforms</h3>
-                <StyledPlatformsDiv>
-                  {game.platforms.map((data) => (
-                    <h3 key={data.platform.id}>{data.platform.name}</h3>
-                  ))}
-                </StyledPlatformsDiv>
-              </StyledInfoDiv>
-            </StyledStatsDiv>
+          <AnimatePresence>
+            <StyledDetailedCard layoutId={game.id}>
+              <StyledStatsDiv>
+                <div className="rating">
+                  <motion.h3 layoutId={`title ${game.id}`}>
+                    {game.name}
+                  </motion.h3>
+                  <p>rating : {game.rating}</p>
+                </div>
+                <StyledInfoDiv>
+                  <h3>Platforms</h3>
+                  <StyledPlatformsDiv>
+                    {game.platforms.map((data) => (
+                      <h3 key={data.platform.id}>{data.platform.name}</h3>
+                    ))}
+                  </StyledPlatformsDiv>
+                </StyledInfoDiv>
+              </StyledStatsDiv>
 
-            <StyledMediaDiv>
-              <img
-                src={imageResizeURL(game.background_image, 1280)}
-                alt={game.background_image}
-              />
-            </StyledMediaDiv>
-            <StyledDescriptionDiv>
-              <p>{game.description_raw}</p>
-            </StyledDescriptionDiv>
-            <div className="gallery">
-              {screen.results.map((screen) => (
-                <img
-                  key={screen.id}
-                  src={imageResizeURL(screen.image, 1280)}
-                  alt={screen.image}
+              <StyledMediaDiv>
+                <motion.img
+                  layoutId={`image ${game.id}`}
+                  src={imageResizeURL(game.background_image, 1280)}
+                  alt={game.background_image}
                 />
-              ))}
-            </div>
-          </StyledDetailedCard>
+              </StyledMediaDiv>
+              <StyledDescriptionDiv>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 2 }}
+                >
+                  {game.description_raw}
+                </motion.p>
+              </StyledDescriptionDiv>
+              <div className="gallery">
+                {screen.results.map((screen) => (
+                  <img
+                    key={screen.id}
+                    src={imageResizeURL(screen.image, 1280)}
+                    alt={screen.image}
+                  />
+                ))}
+              </div>
+            </StyledDetailedCard>
+          </AnimatePresence>
         </StyledCardShadowDiv>
       )}
     </>
@@ -112,13 +126,10 @@ const StyledMediaDiv = styled(motion.div)`
   margin-top: 5rem;
   img {
     width: 100%;
-    height: 70vh;
-    object-fit: cover;
-    object-position: top;
   }
 `;
 
 const StyledDescriptionDiv = styled(motion.div)`
   margin: 5rem 0rem;
 `;
-export default GameDetail;
+export default memo(GameDetail);
