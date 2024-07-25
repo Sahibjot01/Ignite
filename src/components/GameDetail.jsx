@@ -1,10 +1,20 @@
 import { memo } from "react";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 //importing redux
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { imageResizeURL } from "../util";
+//importing platform images
+import playstation from "../img/playstation.svg";
+import steam from "../img/steam.svg";
+import xbox from "../img/xbox.svg";
+import nintendo from "../img/nintendo.svg";
+import apple from "../img/apple.svg";
+import gamepad from "../img/gamepad.svg";
+
+import starfull from "../img/star-full.png";
+import starempty from "../img/star-empty.png";
 
 const GameDetail = () => {
   const { screen, game, isLoading } = useSelector((state) => state.detail);
@@ -17,57 +27,86 @@ const GameDetail = () => {
     }
   };
 
+  const getPlatform = (platform) => {
+    switch (platform) {
+      case "PlayStation 4":
+        return playstation;
+      case "PlayStation 5":
+        return playstation;
+      case "Xbox Series S/X":
+        return xbox;
+      case "Xbox S":
+        return xbox;
+      case "Xbox One":
+        return xbox;
+      case "PC":
+        return steam;
+      case "Nintendo Switch":
+        return nintendo;
+      case "iOS":
+        return apple;
+      default:
+        return gamepad;
+    }
+  };
+
+  const getStars = () => {
+    const stars = [];
+    const rating = Math.floor(game.rating);
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<img key={i} src={starfull} alt="star" />);
+      } else {
+        stars.push(<img key={i} src={starempty} alt="star" />);
+      }
+    }
+    return stars;
+  };
+
   return (
     <>
       {!isLoading && (
         <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
-          <AnimatePresence>
-            <StyledDetailedCard layoutId={game.id}>
-              <StyledStatsDiv>
-                <div className="rating">
-                  <motion.h3 layoutId={`title ${game.id}`}>
-                    {game.name}
-                  </motion.h3>
-                  <p>rating : {game.rating}</p>
-                </div>
-                <StyledInfoDiv>
-                  <h3>Platforms</h3>
-                  <StyledPlatformsDiv>
-                    {game.platforms.map((data) => (
-                      <h3 key={data.platform.id}>{data.platform.name}</h3>
-                    ))}
-                  </StyledPlatformsDiv>
-                </StyledInfoDiv>
-              </StyledStatsDiv>
-
-              <StyledMediaDiv>
-                <motion.img
-                  layoutId={`image ${game.id}`}
-                  src={imageResizeURL(game.background_image, 1280)}
-                  alt={game.background_image}
-                />
-              </StyledMediaDiv>
-              <StyledDescriptionDiv>
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 2 }}
-                >
-                  {game.description_raw}
-                </motion.p>
-              </StyledDescriptionDiv>
-              <div className="gallery">
-                {screen.results.map((screen) => (
-                  <img
-                    key={screen.id}
-                    src={imageResizeURL(screen.image, 1280)}
-                    alt={screen.image}
-                  />
-                ))}
+          <StyledDetailedCard>
+            <StyledStatsDiv>
+              <div className="rating">
+                <motion.h3>{game.name}</motion.h3>
+                <p>rating : </p>
+                {getStars()}
               </div>
-            </StyledDetailedCard>
-          </AnimatePresence>
+              <StyledInfoDiv>
+                <h3>Platforms</h3>
+                <StyledPlatformsDiv>
+                  {game.platforms.map((data) => (
+                    <img
+                      key={data.platform.id}
+                      src={getPlatform(data.platform.name)}
+                      alt="data.platform.name"
+                    />
+                  ))}
+                </StyledPlatformsDiv>
+              </StyledInfoDiv>
+            </StyledStatsDiv>
+
+            <StyledMediaDiv>
+              <motion.img
+                src={imageResizeURL(game.background_image, 1280)}
+                alt={game.background_image}
+              />
+            </StyledMediaDiv>
+            <StyledDescriptionDiv>
+              <motion.p>{game.description_raw}</motion.p>
+            </StyledDescriptionDiv>
+            <div className="gallery">
+              {screen.results.map((screen) => (
+                <img
+                  key={screen.id}
+                  src={imageResizeURL(screen.image, 1280)}
+                  alt={screen.image}
+                />
+              ))}
+            </div>
+          </StyledDetailedCard>
         </StyledCardShadowDiv>
       )}
     </>
@@ -82,6 +121,7 @@ const StyledCardShadowDiv = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 5;
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
@@ -101,6 +141,7 @@ const StyledDetailedCard = styled(motion.div)`
   position: absolute;
   left: 10%;
   color: black;
+  z-index: 10;
   img {
     width: 100%;
   }
@@ -109,6 +150,16 @@ const StyledStatsDiv = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .starContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  img {
+    width: 2rem;
+    height: 2rem;
+    display: inline;
+  }
 `;
 
 const StyledInfoDiv = styled(motion.div)`

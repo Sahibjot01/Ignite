@@ -21,30 +21,28 @@ const Home = () => {
 
   return (
     <StyledGameListDiv>
-      <LayoutGroup>
-        {/* only render game detail if pathname have the gameid */}
-        {gameID && <GameDetail />}
-        <h2>Upcoming Games</h2>
+      {/* only render game detail if pathname have the gameid */}
+      {gameID && <GameDetail />}
+      <h2>Upcoming Games</h2>
 
-        <StyledGamesDiv>
-          {upcoming &&
-            upcoming.map((game) => <GameCard key={game.id} game={game} />)}
-        </StyledGamesDiv>
+      <StyledGamesDiv>
+        {upcoming &&
+          upcoming.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
 
-        <h2>Popular Games</h2>
+      <h2>Popular Games</h2>
 
-        <StyledGamesDiv>
-          {popular &&
-            popular.map((game) => <GameCard key={game.id} game={game} />)}
-        </StyledGamesDiv>
+      <StyledGamesDiv>
+        {popular &&
+          popular.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
 
-        <h2>New Games</h2>
+      <h2>New Games</h2>
 
-        <StyledGamesDiv>
-          {newGames &&
-            newGames.map((game) => <GameCard key={game.id} game={game} />)}
-        </StyledGamesDiv>
-      </LayoutGroup>
+      <StyledGamesDiv>
+        {newGames &&
+          newGames.map((game) => <GameCard key={game.id} game={game} />)}
+      </StyledGamesDiv>
     </StyledGameListDiv>
   );
 };

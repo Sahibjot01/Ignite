@@ -15,7 +15,7 @@ const GameCard = ({ game }) => {
   };
 
   return (
-    <StyledGameCard layoutId={game.id} onClick={loadDetailHandler}>
+    <StyledGameCard onClick={loadDetailHandler}>
       <Link to={`/game/${game.id}`}>
         <motion.h3 layoutId={`title ${game.id}`}>{game.name}</motion.h3>
         <p>{game.released}</p>
