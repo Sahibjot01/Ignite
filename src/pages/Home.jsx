@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesActions";
@@ -8,10 +7,13 @@ import GameCard from "../components/GameCard";
 import GameDetail from "../components/GameDetail";
 
 import { useLocation } from "react-router-dom";
+import { fadeIn } from "../Animation";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { upcoming, popular, newGames } = useSelector((state) => state.games);
+  const { upcoming, popular, newGames, searched } = useSelector(
+    (state) => state.games
+  );
 
   const location = useLocation();
   const gameID = location.pathname.split("/")[2];
@@ -20,11 +22,22 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <StyledGameListDiv>
+    <StyledGameListDiv variants={fadeIn} initial="hidden" animate="show">
       {/* only render game detail if pathname have the gameid */}
       {gameID && <GameDetail />}
+      {searched.length ? (
+        <div className="searched">
+          <h2>Searched Games</h2>
+          <StyledGamesDiv>
+            {searched.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </StyledGamesDiv>
+        </div>
+      ) : (
+        ""
+      )}
       <h2>Upcoming Games</h2>
-
       <StyledGamesDiv>
         {upcoming &&
           upcoming.map((game) => <GameCard key={game.id} game={game} />)}
@@ -61,4 +74,4 @@ const StyledGamesDiv = styled(motion.div)`
   grid-row-gap: 5rem;
 `;
 
-export default memo(Home);
+export default Home;

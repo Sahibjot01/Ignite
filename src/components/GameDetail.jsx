@@ -89,10 +89,14 @@ const GameDetail = () => {
             </StyledStatsDiv>
 
             <StyledMediaDiv>
-              <motion.img
-                src={imageResizeURL(game.background_image, 1280)}
-                alt={game.background_image}
-              />
+              {game.background_image ? (
+                <motion.img
+                  src={imageResizeURL(game.background_image, 1280)}
+                  alt={game.name}
+                />
+              ) : (
+                <FallbackImage />
+              )}
             </StyledMediaDiv>
             <StyledDescriptionDiv>
               <motion.p>{game.description_raw}</motion.p>
@@ -182,5 +186,11 @@ const StyledMediaDiv = styled(motion.div)`
 
 const StyledDescriptionDiv = styled(motion.div)`
   margin: 5rem 0rem;
+`;
+
+const FallbackImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: grey;
 `;
 export default memo(GameDetail);

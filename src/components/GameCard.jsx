@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { loadDetail } from "../actions/detailAction";
 import { Link } from "react-router-dom";
 import { imageResizeURL } from "../util";
+import { popUp } from "../Animation";
+
 const GameCard = ({ game }) => {
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
@@ -15,16 +17,25 @@ const GameCard = ({ game }) => {
   };
 
   return (
-    <StyledGameCard onClick={loadDetailHandler}>
+    <StyledGameCard
+      onClick={loadDetailHandler}
+      variants={popUp}
+      initial="hidden"
+      animate="show"
+    >
       <Link to={`/game/${game.id}`}>
         <motion.h3 layoutId={`title ${game.id}`}>{game.name}</motion.h3>
         <p>{game.released}</p>
         <p>Rating : {game.rating ? game.rating : "not available"}</p>
-        <motion.img
-          layoutId={`image ${game.id}`}
-          src={imageResizeURL(game.background_image, 1280)}
-          alt={game.name}
-        />
+        {game.background_image ? (
+          <motion.img
+            layoutId={`image ${game.id}`}
+            src={imageResizeURL(game.background_image, 1280)}
+            alt={game.name}
+          />
+        ) : (
+          <FallbackImage />
+        )}
       </Link>
     </StyledGameCard>
   );
@@ -42,5 +53,11 @@ const StyledGameCard = styled(motion.div)`
     height: 40vh;
     object-fit: cover;
   }
+`;
+
+const FallbackImage = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: grey;
 `;
 export default memo(GameCard);
