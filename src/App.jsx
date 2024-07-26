@@ -7,11 +7,11 @@ function App() {
   return (
     <>
       <Nav />
+      <GlobalStyles />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game/:id" element={<Home />} />
       </Routes>
-      <GlobalStyles />
     </>
   );
 }

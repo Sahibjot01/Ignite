@@ -13,7 +13,6 @@ const GameCard = ({ game }) => {
   const loadDetailHandler = () => {
     document.body.style.overflow = "hidden";
     dispatch(loadDetail(game.id));
-    console.log(typeof game.id);
   };
 
   return (

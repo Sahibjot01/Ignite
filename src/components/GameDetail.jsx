@@ -15,6 +15,7 @@ import gamepad from "../img/gamepad.svg";
 
 import starfull from "../img/star-full.png";
 import starempty from "../img/star-empty.png";
+import { pageAnimation } from "../Animation";
 
 const GameDetail = () => {
   const { screen, game, isLoading } = useSelector((state) => state.detail);
@@ -67,7 +68,12 @@ const GameDetail = () => {
     <>
       {!isLoading && (
         <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
-          <StyledDetailedCard>
+          <StyledDetailedCard
+            variants={pageAnimation}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
             <StyledStatsDiv>
               <div className="rating">
                 <motion.h3>{game.name}</motion.h3>
