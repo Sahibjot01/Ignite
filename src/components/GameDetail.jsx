@@ -1,6 +1,6 @@
 import { memo } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 //importing redux
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import gamepad from "../img/gamepad.svg";
 import starfull from "../img/star-full.png";
 import starempty from "../img/star-empty.png";
 import { pageAnimation } from "../Animation";
+import { sharedCardStyles } from "./GlobalStyles";
 
 const GameDetail = () => {
   const { screen, game, isLoading } = useSelector((state) => state.detail);
@@ -66,59 +67,59 @@ const GameDetail = () => {
 
   return (
     <>
-      {!isLoading && (
-        <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
-          <StyledDetailedCard
-            variants={pageAnimation}
-            initial="hidden"
-            animate="show"
-            exit="exit"
-          >
-            <StyledStatsDiv>
-              <div className="rating">
-                <motion.h3>{game.name}</motion.h3>
-                <p>rating : </p>
-                {getStars()}
-              </div>
-              <StyledInfoDiv>
-                <h3>Platforms</h3>
-                <StyledPlatformsDiv>
-                  {game.platforms.map((data) => (
-                    <img
-                      key={data.platform.id}
-                      src={getPlatform(data.platform.name)}
-                      alt="data.platform.name"
-                    />
-                  ))}
-                </StyledPlatformsDiv>
-              </StyledInfoDiv>
-            </StyledStatsDiv>
+      <AnimatePresence>
+        {!isLoading && (
+          <StyledCardShadowDiv className="shadow" onClick={exitDetailHandler}>
+            <StyledDetailedCard layoutId={game.id}>
+              <StyledStatsDiv>
+                <div className="rating">
+                  <motion.h3 layoutId={`title-${game.id}`}>
+                    {game.name}
+                  </motion.h3>
+                  <p>rating : </p>
+                  {getStars()}
+                </div>
+                <StyledInfoDiv>
+                  <h3>Platforms</h3>
+                  <StyledPlatformsDiv>
+                    {game.platforms.map((data) => (
+                      <img
+                        key={data.platform.id}
+                        src={getPlatform(data.platform.name)}
+                        alt="data.platform.name"
+                      />
+                    ))}
+                  </StyledPlatformsDiv>
+                </StyledInfoDiv>
+              </StyledStatsDiv>
 
-            <StyledMediaDiv>
-              {game.background_image ? (
-                <motion.img
-                  src={imageResizeURL(game.background_image, 1280)}
-                  alt={game.name}
-                />
-              ) : (
-                <FallbackImage />
-              )}
-            </StyledMediaDiv>
-            <StyledDescriptionDiv>
-              <motion.p>{game.description_raw}</motion.p>
-            </StyledDescriptionDiv>
-            <div className="gallery">
-              {screen.results.map((screen) => (
-                <img
-                  key={screen.id}
-                  src={imageResizeURL(screen.image, 1280)}
-                  alt={screen.image}
-                />
-              ))}
-            </div>
-          </StyledDetailedCard>
-        </StyledCardShadowDiv>
-      )}
+              <StyledMediaDiv>
+                {game.background_image ? (
+                  <motion.img
+                    layoutId={`image ${game.id}`}
+                    src={imageResizeURL(game.background_image, 1280)}
+                    alt={game.name}
+                  />
+                ) : (
+                  <FallbackImage />
+                )}
+              </StyledMediaDiv>
+              <StyledDescriptionDiv>
+                <motion.p>{game.description_raw}</motion.p>
+              </StyledDescriptionDiv>
+              <div className="gallery">
+                {screen.results.map((screen) => (
+                  <img
+                    key={screen.id}
+                    src={imageResizeURL(screen.image, 1280)}
+                    alt={screen.image}
+                  />
+                ))}
+              </div>
+            </StyledDetailedCard>
+          </StyledCardShadowDiv>
+        )}
+      </AnimatePresence>
     </>
   );
 };
@@ -144,12 +145,11 @@ const StyledCardShadowDiv = styled(motion.div)`
 `;
 
 const StyledDetailedCard = styled(motion.div)`
-  width: 80%;
-  border-radius: 1rem;
+  ${sharedCardStyles}
+  width: 70%;
   padding: 2rem 5rem;
-  background-color: #f5f5f5;
   position: absolute;
-  left: 10%;
+  left: 15%;
   color: black;
   z-index: 10;
   img {

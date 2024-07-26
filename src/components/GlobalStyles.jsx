@@ -50,4 +50,12 @@ const GlobalStyles = createGlobalStyle`
     }
 `;
 
+// Shared styles
+export const sharedCardStyles = `
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #f5f5f5;
+    box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
+`;
+
 export default GlobalStyles;

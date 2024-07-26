@@ -3,15 +3,18 @@ import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import GlobalStyles from "./components/GlobalStyles";
 import { Route, Routes } from "react-router-dom";
+import { LayoutGroup } from "framer-motion";
 function App() {
   return (
     <>
       <Nav />
       <GlobalStyles />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/game/:id" element={<Home />} />
-      </Routes>
+      <LayoutGroup>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/game/:id" element={<Home />} />
+        </Routes>
+      </LayoutGroup>
     </>
   );
 }

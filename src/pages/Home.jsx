@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesActions";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import GameCard from "../components/GameCard";
 import GameDetail from "../components/GameDetail";
 
@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <StyledGameListDiv variants={fadeIn} initial="hidden" animate="show">
       {/* only render game detail if pathname have the gameid */}
-      <AnimatePresence>{gameID && <GameDetail />}</AnimatePresence>
+      {gameID && <GameDetail />}
       {searched.length ? (
         <div className="searched">
           <h2>Searched Games</h2>

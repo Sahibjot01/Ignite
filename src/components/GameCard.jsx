@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { imageResizeURL } from "../util";
 import { popUp } from "../Animation";
 
+import { sharedCardStyles } from "./GlobalStyles";
+
 const GameCard = ({ game }) => {
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
@@ -16,14 +18,9 @@ const GameCard = ({ game }) => {
   };
 
   return (
-    <StyledGameCard
-      onClick={loadDetailHandler}
-      variants={popUp}
-      initial="hidden"
-      animate="show"
-    >
+    <StyledGameCard layoutId={game.id} onClick={loadDetailHandler}>
       <Link to={`/game/${game.id}`}>
-        <motion.h3 layoutId={`title ${game.id}`}>{game.name}</motion.h3>
+        <motion.h3 layoutId={`title-${game.id}`}>{game.name}</motion.h3>
         <p>{game.released}</p>
         <p>Rating : {game.rating ? game.rating : "not available"}</p>
         {game.background_image ? (
@@ -41,12 +38,12 @@ const GameCard = ({ game }) => {
 };
 
 const StyledGameCard = styled(motion.div)`
+  ${sharedCardStyles}
+  width: 100%;
   min-height: 30vh;
-  box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
-  border-radius: 1rem;
-  overflow: hidden;
   cursor: pointer;
+
   img {
     width: 100%;
     height: 40vh;
