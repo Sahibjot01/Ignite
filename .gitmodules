@@ -1,0 +1,6 @@
+[submodule "ignite-frontend"]
+	path = ignite-frontend
+	url = https://github.com/Sahibjot01/ignite-frontend
+[submodule "ignite-backend"]
+	path = ignite-backend
+	url = https://github.com/Sahibjot01/ignite-backend
